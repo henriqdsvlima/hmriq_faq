@@ -1,5 +1,6 @@
-import 'package:faq_rique/answer.dart';
-import 'package:faq_rique/question.dart';
+import 'package:faq_rique/result.dart';
+
+import 'questionary.dart';
 import 'package:flutter/material.dart';
 
 main() {
@@ -12,6 +13,10 @@ class PerguntaApp extends StatefulWidget {
 }
 
 class _PerguntaAppState extends State<PerguntaApp> {
+  bool get isThisQuestionSelected {
+    return _questionSelected < _questions.length;
+  }
+
   // final List<Map<String, Object>> questions = [
   final _questions = const [
     {
@@ -43,10 +48,6 @@ class _PerguntaAppState extends State<PerguntaApp> {
     }
   }
 
-  bool get isThisQuestionSelected {
-    return _questionSelected < _questions.length;
-  }
-
   final colors = [
     Color(0xff8a2bce),
   ];
@@ -55,9 +56,6 @@ class _PerguntaAppState extends State<PerguntaApp> {
   Widget build(BuildContext context) {
     //declarativo
 
-    List<String> answers = isThisQuestionSelected
-        ? _questions[_questionSelected]['resposta']
-        : null;
     //pega as respostas, converte a lista de strings para lista de widgets e uma vez convertendo pra widgets converte o resultado  do map em uma lista
 
     //imperativo
@@ -73,18 +71,11 @@ class _PerguntaAppState extends State<PerguntaApp> {
           title: Text('PR-HMRIQ'),
         ),
         body: isThisQuestionSelected
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Question(_questions[_questionSelected]['texto']),
-                  ...answers
-                      .map((text) => Answer(text, _answer))
-                      .toList(), // essas reticencias vão fazer com que a lista seja adicionada na outra lista
-                ],
-              )
-            : Center(
-                child: Text('Parabens!', style: TextStyle(fontSize: 29)),
-              ),
+            ? Questionary(
+                questions: _questions,
+                questionSelected: _questionSelected,
+                answerOk: _answer)
+            : Result(),
       ),
     );
   }
