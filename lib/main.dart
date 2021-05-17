@@ -60,6 +60,13 @@ class _PerguntaAppState extends State<PerguntaApp> {
     }
   }
 
+  void _restartFaq() {
+    setState(() {
+      _questionSelected = 0;
+      _totalScore = 0;
+    });
+  }
+
   final colors = [
     Color(0xff8a2bce),
   ];
@@ -87,7 +94,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 questions: _questions,
                 questionSelected: _questionSelected,
                 answerOk: _answer)
-            : Result(_totalScore),
+            : Result(_totalScore, _restartFaq),
       ),
     );
   }
