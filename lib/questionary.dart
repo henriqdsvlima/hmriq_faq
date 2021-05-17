@@ -6,30 +6,33 @@ import 'package:faq_rique/question.dart';
 class Questionary extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionSelected;
-  final void Function() answerOk;
+  final void Function(int) answerOk;
 
-  bool get isThisQuestionSelected {
+  Questionary({
+    @required this.questions,
+    @required this.questionSelected,
+    @required this.answerOk,
+  });
+
+  bool get temPerguntaSelecionada {
     return questionSelected < questions.length;
   }
 
-  Questionary({
-    @required this.questionSelected,
-    @required this.answerOk,
-    @required this.questions,
-  });
-
   @override
   Widget build(BuildContext context) {
-    List<String> answers =
-        isThisQuestionSelected ? questions[questionSelected]['resposta'] : null;
+    List<Map<String, Object>> respostas = temPerguntaSelecionada
+        ? questions[questionSelected]['respostas']
+        : null;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Question(questions[questionSelected]['texto']),
-        ...answers
-            .map((text) => Answer(text, answerOk))
-            .toList(), // essas reticencias vão fazer com que a lista seja adicionada na outra lista
+        ...respostas.map((answ) {
+          return Answer(
+            answ['texto'],
+            () => answerOk(answ['pontuacao']),
+          );
+        }).toList(),
       ],
     );
   }

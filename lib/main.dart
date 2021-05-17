@@ -20,29 +20,41 @@ class _PerguntaAppState extends State<PerguntaApp> {
   // final List<Map<String, Object>> questions = [
   final _questions = const [
     {
-      'texto': 'Qual é a minha cor favorita?',
-      'resposta': ['Azul', 'Preto', 'Marrom', 'Cinza'],
-    },
-    {
-      'texto': 'Qual a minha banda favorita?',
-      'resposta': [
-        'Death cab for cutie',
-        'Bon iver',
-        'American Football',
-        'The Kooks'
+      'texto': 'Qual é a sua cor favorita?',
+      'respostas': [
+        {'texto': 'Preto', 'pontuacao': 10},
+        {'texto': 'Azul', 'pontuacao': 5},
+        {'texto': 'Marrom', 'pontuacao': 3},
+        {'texto': 'Cinza', 'pontuacao': 1},
       ],
     },
     {
-      'texto': 'Qual animal favorito?',
-      'resposta': ['Elefante', 'Baleia', 'Cachorro', 'Aranha'],
+      'texto': 'Qual é o seu animal favorito?',
+      'respostas': [
+        {'texto': 'Baleia', 'pontuacao': 10},
+        {'texto': 'Aranha', 'pontuacao': 5},
+        {'texto': 'Elefante', 'pontuacao': 3},
+        {'texto': 'Leão', 'pontuacao': 1},
+      ],
     },
+    {
+      'texto': 'Qual é minha banda favorita?',
+      'respostas': [
+        {'texto': 'Death Cab For Cutie', 'pontuacao': 10},
+        {'texto': 'Bon iver', 'pontuacao': 9},
+        {'texto': 'American Football', 'pontuacao': 6},
+        {'texto': 'Kings of Convenience', 'pontuacao': 7},
+      ],
+    }
   ];
   var _questionSelected = 0;
+  var _totalScore = 0;
 
-  void _answer() {
+  void _answer(int score) {
     if (isThisQuestionSelected) {
       setState(() {
         _questionSelected++;
+        _totalScore += score;
       });
       print(_questionSelected);
     }
@@ -75,7 +87,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
                 questions: _questions,
                 questionSelected: _questionSelected,
                 answerOk: _answer)
-            : Result(),
+            : Result(_totalScore),
       ),
     );
   }
